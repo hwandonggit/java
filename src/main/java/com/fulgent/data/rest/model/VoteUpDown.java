@@ -5,6 +5,14 @@ public class VoteUpDown {
 	private long did;
 	private boolean voted;
 
+	public VoteUpDown() {}
+
+	public VoteUpDown(String userid, long did, boolean voted) {
+		this.userid = userid;
+		this.did = did;
+		this.voted = voted;
+	}
+
 	public String getUserid() {
 		return userid;
 	}

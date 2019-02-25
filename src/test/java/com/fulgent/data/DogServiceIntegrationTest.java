@@ -15,8 +15,15 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@SpringBootTest(
+//        SpringBootTest.WebEnvironment.MOCK,
+//        classes = Application.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 
@@ -36,9 +43,8 @@ public class DogServiceIntegrationTest {
 
     @Test
     public void retrieveDogs_basic() throws Exception {
-        /**
-         * TODO:
-         */
+        this.mockMvc.perform(get("/")).andExpect(status().isOk())
+                .andExpect(content().string("Hello World"));
     }
 
 }

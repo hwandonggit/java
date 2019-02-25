@@ -4,7 +4,9 @@ import com.fulgent.data.repository.entity.DogEntity;
 import com.fulgent.data.repository.DogRepository;
 import com.fulgent.data.repository.UserFavoritedRepository;
 import com.fulgent.data.rest.model.ApplicationMessage;
+import com.fulgent.data.rest.model.Dog;
 import com.fulgent.data.rest.model.VoteUpDown;
+import com.fulgent.data.service.impl.DogServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,11 @@ public class DogServiceTest {
     @Autowired
     private TestEntityManager entityManager;
 
+//    @Autowired
+//    private DogRepository dogRepository;
+
     @Autowired
-    private DogRepository dogRepository;
+    private DogServiceImpl dogServiceImpl;
 
     @Autowired
     private UserFavoritedRepository dogFavoriteRepository;
@@ -45,7 +50,7 @@ public class DogServiceTest {
         entityManager.flush();
 
         // when
-        List<DogEntity> foundDogsList = dogRepository.findDogsByBreed(dog.getBreed());
+        List<Dog> foundDogsList = dogServiceImpl.findDogsByBreed(dog.getBreed());
 
         // then
         assertThat(foundDogsList.get(0).getBreed()).isEqualTo(dog.getBreed());
@@ -62,7 +67,7 @@ public class DogServiceTest {
         entityManager.flush();
 
         // when
-        List<DogEntity> foundDogsGroups = dogRepository.findDogsGroupByBreed();
+        List<Dog> foundDogsGroups = dogServiceImpl.findDogsGroupByBreed();
 
         // then
         assertThat(foundDogsGroups.size()).isEqualTo(2);
@@ -73,15 +78,15 @@ public class DogServiceTest {
     public void whenFindDetailById_thenReturnDogs() {
         // given
         DogEntity dog = new DogEntity("pug", "http://i.imgur.com/ozJD7SC.png","TEST");
-        long dogId = dog.getDogId();
+        long dogId = dog.getDid();
         entityManager.persist(dog);
         entityManager.flush();
 
         // when
-        DogEntity foundDog = dogRepository.findDogDetail(dogId);
+        Dog foundDog = dogServiceImpl.findDogDetail(dogId);
 
         // then
-        assertThat(foundDog.getDetails()).isEqualTo(dog.getDetails());
+        assertThat(foundDog.getDescription()).isEqualTo(dog.getDescription());
     }
 
     //public ApplicationMessage voteUpDown(@RequestBody VoteUpDown voteUpDown);
@@ -89,16 +94,16 @@ public class DogServiceTest {
     public void whenVoteUpDown_thenReturnVotes() {
         // given
         DogEntity dog = new DogEntity("pug", "http://i.imgur.com/ozJD7SC.png","TEST");
-        long dogId = dog.getDogId();
+        long dogId = dog.getDid();
         entityManager.persist(dog);
         entityManager.flush();
 
         VoteUpDown vote = new VoteUpDown("user123", dogId, Boolean.TRUE);
         // when
-        ApplicationMessage voteDog = dogFavoriteRepository.voteUpDown(vote);
+        String voteDog = dogServiceImpl.voteUpDown(vote);
 
         // then
-        assertThat(voteDog.getMessage()).isEqualTo("success");
+        assertThat(voteDog.equals("success"));
     }
 }
 
