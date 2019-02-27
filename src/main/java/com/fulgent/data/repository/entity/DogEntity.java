@@ -1,5 +1,6 @@
 package com.fulgent.data.repository.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,11 +14,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "dogs_tbl")
-public class DogEntity {
+public class DogEntity implements Serializable {
+
+	private static final long serialVersionUID = -3009157732242241606L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long did;
+
+	@Column(length=150, name = "bread")
 	private String breed;
+
+	@Column(length=200, name = "imgUrl")
 	private String imgUrl;
+
+	@Column(length=200, name = "description")
 	private String description;
+
+	@Column(length=200, name = "users")
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "dog", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<UserFavoritedEntity> users;
 	
 	
@@ -31,8 +46,6 @@ public class DogEntity {
 		this.description = description;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getDid() {
 		return did;
 	}
@@ -41,7 +54,6 @@ public class DogEntity {
 		this.did = did;
 	}
 
-	@Column(length=150)
 	public String getBreed() {
 		return breed;
 	}
@@ -51,7 +63,6 @@ public class DogEntity {
 	}
 
 	
-	@Column(length=200)
 	public String getImgUrl() {
 		return imgUrl;
 	}
@@ -60,7 +71,6 @@ public class DogEntity {
 		this.imgUrl = imgUrl;
 	}
 
-	@Column(length=200)
 	public String getDescription() {
 		return description;
 	}
@@ -69,7 +79,6 @@ public class DogEntity {
 		this.description = description;
 	}
 
-	@OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "dog", fetch = FetchType.EAGER, orphanRemoval = true)
 	public List<UserFavoritedEntity> getUsers() {
 		return users;
 	}

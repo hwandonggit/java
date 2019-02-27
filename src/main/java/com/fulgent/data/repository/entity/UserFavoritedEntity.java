@@ -1,5 +1,6 @@
 package com.fulgent.data.repository.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_dogs_favorited_tbl")
-public class UserFavoritedEntity {
+public class UserFavoritedEntity implements Serializable {
 	private String userid;
 	private boolean voted;
 	private Timestamp doe;

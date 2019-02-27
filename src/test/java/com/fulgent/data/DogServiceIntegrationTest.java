@@ -21,11 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@SpringBootTest(
-//        SpringBootTest.WebEnvironment.MOCK,
-//        classes = Application.class)
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@TestPropertySource(locations = "classpath:application.yml")
 
 public class DogServiceIntegrationTest {
 
@@ -44,7 +41,21 @@ public class DogServiceIntegrationTest {
     @Test
     public void retrieveDogs_basic() throws Exception {
         this.mockMvc.perform(get("/")).andExpect(status().isOk())
-                .andExpect(content().string("Hello World"));
+                .andExpect(content().string("Hello Me!!!!"));
     }
+
+//    @Test
+//    void registrationWorksThroughAllLayers() throws Exception {
+//        UserResource user = new UserResource("Zaphod", "zaphod@galaxy.net");
+//
+//        mockMvc.perform(post("/forums/{forumId}/register", 42L)
+//                .contentType("application/json")
+//                .param("sendWelcomeMail", "true")
+//                .content(objectMapper.writeValueAsString(user)))
+//                .andExpect(status().isOk());
+//
+//        UserEntity userEntity = userRepository.findByName("Zaphod");
+//        assertThat(userEntity.getEmail()).isEqualTo("zaphod@galaxy.net");
+//    }
 
 }
